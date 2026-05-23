@@ -4,239 +4,146 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Virtual Card Generator</title>
-
 <style>
-body{
-    margin:0;
-    padding:0;
-    background:#0f172a;
-    font-family:Arial;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
+body {
+    margin: 0;
+    padding: 0;
+    background: #0f172a;
+    font-family: Arial;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-.container{
-    width:380px;
-    text-align:center;
-    padding:20px;
+.container {
+    width: 380px;
+    text-align: center;
+    padding: 20px;
 }
 
-h1{
-    margin-top:0;
-    margin-bottom:15px;
-    color:#06b6d4;
+h1 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #06b6d4;
 }
 
-.card{
-    background:linear-gradient(135deg,#2563eb,#06b6d4);
-    border-radius:20px;
-    padding:25px;
-    height:220px;
-    box-shadow:0 0 25px rgba(0,0,0,0.4);
-    position:relative;
-    margin:20px 0;
+.card {
+    background: linear-gradient(135deg, #2563eb, #06b6d4);
+    border-radius: 20px;
+    padding: 25px;
+    height: 220px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+    margin: 20px 0;
 }
 
-.logo{
-    text-align:right;
-    font-size:32px;
-    font-weight:bold;
+.logo {
+    text-align: right;
+    font-size: 32px;
+    font-weight: bold;
 }
 
-.chip{
-    width:60px;
-    height:45px;
-    background:gold;
-    border-radius:10px;
-    margin-top:20px;
+.chip {
+    width: 60px;
+    height: 45px;
+    background: gold;
+    border-radius: 10px;
+    margin-top: 20px;
 }
 
-.number{
-    margin-top:30px;
-    font-size:24px;
-    letter-spacing:3px;
-    font-family:'Courier New', monospace;
+.number {
+    margin-top: 30px;
+    font-size: 24px;
+    letter-spacing: 3px;
+    font-family: 'Courier New', monospace;
 }
 
-.info{
-    display:flex;
-    justify-content:space-between;
-    margin-top:30px;
-    font-size:14px;
+.info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    font-size: 14px;
 }
 
-.info div div:first-child{
-    font-size:12px;
-    opacity:0.8;
-    margin-bottom:5px;
+button {
+    margin-top: 25px;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 12px;
+    background: #06b6d4;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
 }
 
-button{
-    margin-top:25px;
-    padding:14px 25px;
-    border:none;
-    border-radius:12px;
-    background:#06b6d4;
-    color:white;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-    transition:0.3s;
-    width:100%;
+button:hover {
+    background: #0891b2;
 }
 
-button:hover{
-    background:#0891b2;
-    transform:scale(1.02);
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+    color: #0f172a;
 }
 
-button:active{
-    transform:scale(0.98);
-}
-
-input{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    border:none;
-    border-radius:10px;
-    font-size:16px;
-    box-sizing:border-box;
-}
-
-input:focus{
-    outline:none;
-    box-shadow:0 0 10px rgba(6,182,212,0.5);
-}
-
-@media (max-width:480px){
-    .container{
-        width:90%;
-    }
-    
-    .card{
-        height:200px;
-        padding:20px;
-    }
-    
-    .number{
-        font-size:20px;
-        letter-spacing:2px;
-    }
-    
-    .info{
-        font-size:12px;
-    }
+input:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
-
-<h1>Virtual Card Generator</h1>
-
-<input type="text" id="username" placeholder="Enter your name">
-
-<div class="card">
-
-<div class="logo">VISA</div>
-
-<div class="chip"></div>
-
-<div class="number" id="cardNumber">
-4532 1234 5678 9999
-</div>
-
-<div class="info">
-<div>
-<div>CARD HOLDER</div>
-<div id="cardName">YOUR NAME</div>
-</div>
-
-<div>
-<div>EXPIRES</div>
-<div id="expiry">12/30</div>
-</div>
-</div>
-
-</div>
-
-<button onclick="generateCard()">
-Generate Card
-</button>
-
+    <h1>Virtual Card Generator</h1>
+    <input type="text" id="username" placeholder="Enter your name">
+    
+    <div class="card">
+        <div class="logo">VISA</div>
+        <div class="chip"></div>
+        <div class="number" id="cardNumber">4532 1234 5678 9999</div>
+        <div class="info">
+            <div>
+                <div>CARD HOLDER</div>
+                <div id="cardName">YOUR NAME</div>
+            </div>
+            <div>
+                <div>EXPIRES</div>
+                <div id="expiry">12/30</div>
+            </div>
+        </div>
+    </div>
+    
+    <button onclick="generateCard()">Generate Card</button>
 </div>
 
 <script>
-
-function randomNumber(length){
-    let result = '';
-    for(let i=0;i<length;i++){
-        result += Math.floor(Math.random()*10);
+function generateCard() {
+    var num = "4";
+    for(var i = 0; i < 15; i++) {
+        num += Math.floor(Math.random() * 10);
     }
-    return result;
+    var formatted = num.match(/.{1,4}/g).join(" ");
+    document.getElementById("cardNumber").innerHTML = formatted;
+    
+    var nameInput = document.getElementById("username").value;
+    var displayName = nameInput.trim() === "" ? "YOUR NAME" : nameInput.toUpperCase();
+    document.getElementById("cardName").innerHTML = displayName;
+    
+    var month = Math.floor(Math.random() * 12) + 1;
+    month = month < 10 ? "0" + month : month;
+    var year = Math.floor(Math.random() * 5) + 27;
+    document.getElementById("expiry").innerHTML = month + "/" + year;
 }
-
-function generateCard(){
-    try {
-        var cardNumberElement = document.getElementById("cardNumber");
-        var cardNameElement = document.getElementById("cardName");
-        var expiryElement = document.getElementById("expiry");
-        var usernameInput = document.getElementById("username");
-        
-        if(!cardNumberElement || !cardNameElement || !expiryElement || !usernameInput){
-            console.error("Required elements not found");
-            return;
-        }
-
-        let card = "4" + randomNumber(15);
-
-        var formatted = card.match(/.{1,4}/g);
-        if(formatted){
-            card = formatted.join(" ");
-        }
-
-        cardNumberElement.textContent = card;
-
-        let name = usernameInput.value;
-
-        if(name.trim() === ""){
-            name = "ENOCK MUHIZI";
-        }
-
-        cardNameElement.textContent = name.toUpperCase();
-
-        let month = Math.floor(Math.random()*12)+1;
-
-        if(month < 10){
-            month = "0"+month;
-        }
-
-        let year = Math.floor(Math.random()*5)+27;
-
-        expiryElement.textContent = month + "/" + year;
-    } catch(error) {
-        console.error("Error generating card:", error);
-    }
-}
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function(){
-    var usernameInput = document.getElementById("username");
-    if(usernameInput){
-        usernameInput.addEventListener('keypress', function(e){
-            if(e.key === 'Enter'){
-                generateCard();
-            }
-        });
-    }
-});
-
 </script>
 
 </body>
