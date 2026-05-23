@@ -295,46 +295,116 @@
 </div>
 
 <script>
-  // Update name in real-time
-  document.getElementById('cardName').addEventListener('input', function(e) {
-    const name = e.target.value.toUpperCase() || 'YOUR NAME';
-    document.getElementById('cardNameDisplay').textContent = name;
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    // Set initial expiry date
+    setInitialExpiry();
+    
+    // Add event listener for name input
+    var cardNameInput = document.getElementById('cardName');
+    if (cardNameInput) {
+      cardNameInput.addEventListener('input', function(e) {
+        var name = e.target.value.toUpperCase() || 'YOUR NAME';
+        var cardNameDisplay = document.getElementById('cardNameDisplay');
+        if (cardNameDisplay) {
+          cardNameDisplay.textContent = name;
+        }
+      });
+    }
   });
 
-  function generateCard() {
-    let number = '4';
-    
-    for (let i = 0; i < 15; i++) {
-      number += Math.floor(Math.random() * 10);
+  function setInitialExpiry() {
+    var month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
+    var year = String(new Date().getFullYear() + Math.floor(Math.random() * 5) + 1).slice(-2);
+    var cardExpiry = document.getElementById('cardExpiry');
+    if (cardExpiry) {
+      cardExpiry.textContent = month + '/' + year;
     }
-    
-    number = number.match(/.{1,4}/g).join(' ');
-    document.getElementById('cardNumber').innerHTML = number;
-    
-    // Generate random expiry date
-    const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
-    const year = String(new Date().getFullYear() + Math.floor(Math.random() * 5) + 1).slice(-2);
-    document.getElementById('cardExpiry').textContent = `${month}/${year}`;
+  }
+
+  function generateCard() {
+    try {
+      var number = '4';
+      
+      for (var i = 0; i < 15; i++) {
+        number += Math.floor(Math.random() * 10);
+      }
+      
+      var formatted = number.match(/.{1,4}/g);
+      if (formatted) {
+        number = formatted.join(' ');
+      }
+      
+      var cardNumberElement = document.getElementById('cardNumber');
+      if (cardNumberElement) {
+        cardNumberElement.textContent = number;
+      }
+      
+      // Generate random expiry date
+      var month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
+      var year = String(new Date().getFullYear() + Math.floor(Math.random() * 5) + 1).slice(-2);
+      var cardExpiry = document.getElementById('cardExpiry');
+      if (cardExpiry) {
+        cardExpiry.textContent = month + '/' + year;
+      }
+    } catch (error) {
+      console.error('Error generating card:', error);
+    }
   }
 
   function copyCardNumber() {
-    const cardNumber = document.getElementById('cardNumber').textContent;
-    navigator.clipboard.writeText(cardNumber).then(() => {
-      const feedback = document.getElementById('copyFeedback');
-      feedback.classList.add('show');
+    try {
+      var cardNumberElement = document.getElementById('cardNumber');
+      if (!cardNumberElement) {
+        console.error('Card number element not found');
+        return;
+      }
       
-      setTimeout(() => {
-        feedback.classList.remove('show');
-      }, 2000);
-    });
+      var cardNumber = cardNumberElement.textContent;
+      
+      // Use clipboard API if available
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(cardNumber).then(function() {
+          showCopyFeedback();
+        }).catch(function(err) {
+          // Fallback method
+          fallbackCopy(cardNumber);
+        });
+      } else {
+        // Fallback for older browsers
+        fallbackCopy(cardNumber);
+      }
+    } catch (error) {
+      console.error('Error copying card number:', error);
+    }
   }
 
-  // Set initial expiry date
-  window.addEventListener('load', function() {
-    const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
-    const year = String(new Date().getFullYear() + Math.floor(Math.random() * 5) + 1).slice(-2);
-    document.getElementById('cardExpiry').textContent = `${month}/${year}`;
-  });
+  function fallbackCopy(text) {
+    var textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      showCopyFeedback();
+    } catch (err) {
+      console.error('Fallback copy failed:', err);
+    }
+    document.body.removeChild(textArea);
+  }
+
+  function showCopyFeedback() {
+    var feedback = document.getElementById('copyFeedback');
+    if (feedback) {
+      feedback.classList.add('show');
+      
+      setTimeout(function() {
+        feedback.classList.remove('show');
+      }, 2000);
+    }
+  }
 </script>
 
 </body>
