@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Virtual Card</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      text-shadow: 0 2px 10px rgba(0, 191, 255, 0.5);
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        text-shadow: 0 2px 10px rgba(0, 191, 255, 0.5);
+      }
+      50% {
+        text-shadow: 0 2px 20px rgba(0, 191, 255, 0.8);
+      }
+    }
+
+    .card {
+      width: 100%;
+      max-width: 400px;
+      height: 220px;
+      background: linear-gradient(135deg, #1e3cff, #00bfff);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 0 auto 40px;
+      box-shadow: 0 10px 40px rgba(0, 191, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 50px rgba(0, 191, 255, 0.5);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .visa {
+      text-align: right;
+      font-size: 32px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .card-number {
+      font-size: 28px;
+      letter-spacing: 4px;
+      font-weight: 300;
+      font-family: 'Courier New', monospace;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-size: 14px;
+    }
+
+    .card-name {
+      text-align: left;
+    }
+
+    .card-expiry {
+      text-align: right;
+      font-size: 12px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-generate {
+      background: linear-gradient(135deg, #00bfff, #1e3cff);
+      color: white;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .btn-generate:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 20px rgba(0, 191, 255, 0.4);
+    }
+
+    .btn-generate:active {
+      transform: scale(0.98);
+    }
+
+    .btn-copy {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .btn-copy:hover {
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #00bfff;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 15px;
+      border: 2px solid rgba(0, 191, 255, 0.3);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #00bfff;
+      background: rgba(0, 191, 255, 0.1);
+      box-shadow: 0 0 15px rgba(0, 191, 255, 0.2);
+    }
+
+    .info-text {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 15px;
+      font-style: italic;
+    }
+
+    .copy-feedback {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #00bfff;
+      color: #111;
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    .copy-feedback.show {
+      opacity: 1;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+      }
+
+      .card {
+        height: 200px;
+        padding: 20px;
+      }
+
+      .visa {
+        font-size: 24px;
+      }
+
+      .card-number {
+        font-size: 22px;
+        letter-spacing: 3px;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>💳 Virtual Card Generator</h1>
+
+  <div class="form-group">
+    <label for="cardName">Cardholder Name:</label>
+    <input 
+      type="text" 
+      id="cardName" 
+      placeholder="Enter your name"
+      maxlength="30"
+    >
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <div class="visa">VISA</div>
+      <div class="card-number" id="cardNumber">4532 1234 5678 9999</div>
+      <div class="card-bottom">
+        <div class="card-name" id="cardNameDisplay">YOUR NAME</div>
+        <div class="card-expiry" id="cardExpiry">12/28</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="button-group">
+    <button class="btn-generate" onclick="generateCard()">Generate New Card</button>
+    <button class="btn-copy" onclick="copyCardNumber()">Copy Number</button>
+  </div>
+
+  <p class="info-text">⚠️ This is a demo. These are not real credit card numbers.</p>
+</div>
+
+<div class="copy-feedback" id="copyFeedback">
+  ✓ Card number copied!
+</div>
+
+<script>
+  // Update name in real-time
+  document.getElementById('cardName').addEventListener('input', function(e) {
+    const name = e.target.value.toUpperCase() || 'YOUR NAME';
+    document.getElementById('cardNameDisplay').textContent = name;
+  });
+
+  function generateCard() {
+    let number = '4';
+    
+    for (let i = 0; i < 15; i++) {
+      number += Math.floor(Math.random() * 10);
+    }
+    
+    number = number.match(/.{1,4}/g).join(' ');
+    document.getElementById('cardNumber').innerHTML = number;
+    
+    // Generate random expiry date
+    const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
+    const year = String(new Date().getFullYear() + Math.floor(Math.random() * 5) + 1).slice(-2);
+    document.getElementById('cardExpiry').textContent = `${month}/${year}`;
+  }
+
+  function copyCardNumber() {
+    const cardNumber = document.getElementById('cardNumber').textContent;
+    navigator.clipboard.writeText(cardNumber).then(() => {
+      const feedback = document.getElementById('copyFeedback');
+      feedback.classList.add('show');
+      
+      setTimeout(() => {
+        feedback.classList.remove('show');
+      }, 2000);
+    });
+  }
+
+  // Set initial expiry date
+  window.addEventListener('load', function() {
+    const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
+    const year = String(new Date().getFullYear() + Math.floor(Math.random() * 5) + 1).slice(-2);
+    document.getElementById('cardExpiry').textContent = `${month}/${year}`;
+  });
+</script>
+
+</body>
+</html>
